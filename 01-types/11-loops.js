@@ -6,6 +6,18 @@
 for (let i = 1; i <= 5; i++) {
     console.log("Número:", i);
 }
+// foreach
+
+const numeros = [1, 2, 3, 4, 5]
+
+numeros.forEach(numero => {
+    if (numero === 3) {
+        break  // ERROR — forEach no acepta break
+    }
+    console.log(numero)
+})
+
+
 
 const tecnologias = ["Python", "Django", "JavaScript", "React"]
 
@@ -18,6 +30,18 @@ for (let i = 0; i < tecnologias.length; i++) {
 for (const tech of tecnologias) {
     console.log(tech)
 }
+
+// GRAN DIFERENCIA CON FOREACH
+const numeros = [1, 2, 3, 4, 5]
+
+for (const numero of numeros) {
+    if (numero === 3) {
+        break  // para el loop aquí
+    }
+    console.log(numero)
+}
+// → 1
+// → 2
 
 // for...in — para keys de objetos (no usar en arrays)
 const dev = { nombre: "Jhon", ciudad: "Lima", stack: "Python" }
