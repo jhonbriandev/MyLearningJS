@@ -43,6 +43,8 @@ usuarioternario = {nombre : "Jhon", activo : "true"}
 const estado = usuarioternario.activo ? "activo" : "inactivo"
 console.log(estado)
 
+/* ---------------------------------------------------------------------------------- */
+
 // SWITCH
 
 const dia = "sabado";

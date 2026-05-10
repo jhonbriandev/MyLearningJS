@@ -51,7 +51,7 @@ console.log(primeraVenta.vender(7)) // Simulamos la venta con el metodo vender
                                     // Vender es metodo por eso lleva parentesis, y alli ubicamos 
                                     // la cantidad de la venta simulada
 
-
+/* ---------------------------------------------------------------------------------- */
 
 class Animal {
     // constructor es equivalente a __init__ en Python

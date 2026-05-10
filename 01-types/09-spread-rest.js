@@ -16,6 +16,7 @@ console.log(user);
 const userComplete = {...user, profession : "Engineer"};
 console.log(userComplete);
 
+/* ---------------------------------------------------------------------------------- */
 
 // REST
 

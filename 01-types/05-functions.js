@@ -1,3 +1,5 @@
+// FUNCIONES
+
 // Funcion simple, solo se ejecuta cuando llamo a la funcion: saludar()
 // Sin parametros por el momento
 
@@ -15,6 +17,10 @@ console.log(despedir("Andrea")); // console.log similar a un print
 //EQUIVALENTE A :
 // const mensaje = despedir("Andrea");
 //console.log(despedir);
+
+/* ---------------------------------------------------------------------------------- */
+
+//Funcion anonima guardada en una variable
 
 const elegir = function(name){
     return  `Te elijo ${name}`;

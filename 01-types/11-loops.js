@@ -63,6 +63,8 @@ for (let i = 0; i < usuariosPrimarios.length; i++) {
     }
 }
 
+/* ---------------------------------------------------------------------------------- */
+
 // WHILE
 
 // Le damos el valor de 0 a i y mientras que sea menor de 5 se aumentara en 1 en un bucle

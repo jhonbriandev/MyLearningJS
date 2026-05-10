@@ -57,6 +57,7 @@ numbers4.forEach(function(number) {
     console.log(number);
 });
 
+/* ---------------------------------------------------------------------------------- */
 
 // METODOS CON ARRAYS //
 

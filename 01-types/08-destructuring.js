@@ -1,4 +1,5 @@
 // SIN DESTRUCTURING
+
 // Objeto con datos del usuario (similar a un dict en Python)
 const user = { name: "Paul", age: 19, city: "Lima" };
 
