@@ -22,3 +22,30 @@ console.log(contador())  // 3
 
 // La variable cuenta no es accesible desde afuera
 //console.log(cuenta)  // ReferenceError
+
+/* ---------------------------------------------------------------------------------- */
+
+function crearCuenta(saldoInicial) {
+    let saldo = saldoInicial  // privado — no accesible desde afuera
+    
+    return {
+        depositar(monto) {
+            saldo += monto
+            return saldo
+        },
+        retirar(monto) {
+            if (monto > saldo) throw new Error("Saldo insuficiente")
+            saldo -= monto
+            return saldo
+        },
+        verSaldo() {
+            return saldo
+        }
+    }
+}
+
+const cuenta = crearCuenta(1000)
+console.log(cuenta.verSaldo())    // 1000
+console.log(cuenta.depositar(500)) // 1500
+console.log(cuenta.retirar(200))   // 1300
+console.log(cuenta.saldo)          // undefined — saldo es privado
