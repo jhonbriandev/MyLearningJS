@@ -41,7 +41,7 @@ function obtenerUsuario(id, callback) {
 // })
 
 obtenerUsuario(1, (usuario) => {
-    console.log(usuario.nombre)  // "Jhon" después de 1 segundo
+    console.log(usuario.nombre," Respuesta del callback no confundir")  // "Jhon" después de 1 segundo
 })
 
 // El problema de callbacks  aparece cuando necesitas encadenar operaciones asíncronas,
@@ -57,6 +57,7 @@ obtenerUsuario(1, (usuario) => {
 
 const miPromesa = new Promise((resolve, reject) => {   // Promise recibe una función con dos parámetros:
                                                         // resolve (salió bien) y reject (salió mal)
+                                                        // No son parametros que esperan datos sino propios de JS
     setTimeout(() => {                                  // esperamos 2 segundos antes de ejecutar
         const exito = true                              // simulamos si la operación fue exitosa o no
         
@@ -85,3 +86,41 @@ miPromesa
     .finally(() => {                                    // se ejecuta siempre, haya éxito o error
         console.log("Operación terminada")
     })
+
+
+
+
+const verificarEdad = new Promise((resolve, reject) => {  // Promise recibe resolve y reject
+    const edad = 20                                        // dato que vamos a verificar
+
+    if (edad >= 18) {
+        resolve("Acceso permitido")                        // enviamos un mensaje hacia el .then
+    } else {
+        reject(new Error("Eres menor de edad"))            // enviamos el error hacia el .catch
+    }
+})
+
+verificarEdad
+    .then((mensaje) => {                                   // mensaje recibe lo que resolve() envió
+                                                           // mensaje = "Acceso permitido"
+        console.log(mensaje)                               // → "Acceso permitido"
+        return "Bienvenido al sistema"                     // retornamos para el siguiente .then
+    })
+    .then((bienvenida) => {                                // bienvenida recibe el return anterior
+        console.log(bienvenida)                            // → "Bienvenido al sistema"
+    })
+    .catch((error) => {                                    // se ejecuta si reject() fue llamado
+        console.log(error.message)                         // → "Eres menor de edad"
+    })
+    .finally(() => {                                       // se ejecuta siempre
+        console.log("Verificación terminada")              // → "Verificación terminada"
+    })
+
+//     ¿Por qué esto es mejor que callbacks?
+
+// Porque:
+
+// evita anidación extrema
+// código más limpio
+// errores centralizados
+// mejor mantenimiento
