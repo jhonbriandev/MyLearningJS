@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primer Programa Javascript</title>
+</head>
+
+<body bgcolor="#f4f4f4">
+
+<script type="module" src="./06-day6.js"></script>
+
+<center>
+
+    <h1>📋 Mis Tareas</h1>
+
+    <div id="tareas">
+        <input id="input-usuario" type="text" placeholder="Ingrese Usuario">
+        <br><br>
+
+        <input id="input-titulo" type="text" placeholder="Ingrese Tarea">
+        <br><br>
+
+        <input type="submit" id="btn-agregar" value="Agregar">
+        <input type="reset" id="btn-limpiar" value="Limpiar">
+    </div>
+
+    <br>
+
+    <table id="lista-tareas" border="1" cellpadding="8" bgcolor="white">
+        <tr bgcolor="#dcdcdc">
+            <th id="usuario">Usuario</th>
+            <th id="id-tarea">ID Tarea</th>
+            <th id="titulo">Titulo</th>
+            <th id="estado">Estado</th>
+        </tr>
+    </table>
+
+    <br>
+
+    <div>
+        <span id="txtvacio"></span>
+    </div>
+
+    <br>
+
+    <div>
+        <strong>Contador Faltante:</strong>
+        <span id="con-faltante">0</span>
+    </div>
+
+    <div>
+        <strong>Contador Completo:</strong>
+        <span id="con-completo">0</span>
+    </div>
+
+</center>
+
+</body>
+</html>
