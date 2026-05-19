@@ -1,0 +1,93 @@
+/* styles.css */
+
+body{
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+header{
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+main{
+    width: 80%;
+    margin: 20px auto;
+}
+
+#posts-contenedor{
+    display: grid;
+    gap: 20px;
+}
+
+#post-contenedor{
+    display: grid;
+    gap: 20px;
+}
+
+.post-titulo{
+    margin-top: 10px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+.post-autor{
+    margin-top: 10px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+.post-estado{
+    margin-top: 10px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.post-completo{
+    margin-top: 10px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+.post-contenido{
+    margin-top: 10px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.post h2{
+    margin-top: 0;
+    color: #333;
+}
+
+.post p{
+    color: #555;
+}
+
+#contador-posts{
+    font-size: 19px;
+    margin-top: 10px;
+}
+
+.btn-ver{
+    background-color: #555;
+    font-size: 16px;
+    color: #ffffff;
+    margin-top: 20px;
+}
+
+.btn-volver{
+    font-size: 16px;
+    color: #940d3a;
+    margin-top: 60px;
+}

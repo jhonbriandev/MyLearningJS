@@ -30,6 +30,7 @@ const inputTitle = document.querySelector('#input-titulo')
 const addText = document.querySelector('#btn-agregar')         // Seleccionamos el botón agregar
 const listaTasks = document.querySelector('#lista-tareas')     // Seleccionamos la lista de tareas
 const cleanText = document.querySelector('#btn-limpiar')       // Seleccionamos el botón limpiar
+const loadText = document.querySelector('#btn-cargar')
 const listCompleted = document.querySelector('#con-completo')  // Seleccionamos el contador de completadas
 const listWait = document.querySelector('#con-faltante')       // Seleccionamos el contador de faltantes
 const textVoid = document.querySelector('#txtvacio')
@@ -143,6 +144,36 @@ cleanText.addEventListener('click', function() {
     inputUser.value = ""
 })
 
+loadText.addEventListener('click', async function(event){
+    const response = await fetch(
+        "https://jsonplaceholder.typicode.com/todos?_limit=5"
+    );
+    const data = await response.json();
+
+    data.forEach(element => {
+
+        const fila = document.createElement('tr')
+
+        const celdaUsuario = document.createElement('td')
+        const celdaId = document.createElement('td')
+        const celdaTitulo = document.createElement('td')
+        const celdaEstado = document.createElement('td')
+
+        celdaUsuario.textContent = element.userId
+        celdaId.textContent = element.id
+        celdaTitulo.textContent = element.title
+        celdaEstado.textContent = element.completed
+        
+        fila.appendChild(celdaUsuario)
+        fila.appendChild(celdaId)
+        fila.appendChild(celdaTitulo)
+        fila.appendChild(celdaEstado)
+
+        // Agregamos la fila completa a la tabla
+        listaTasks.appendChild(fila)
+
+    });
+})
 
 
 // 5. DESAFÍO: Al cargar la página, fetch a esta API pública
