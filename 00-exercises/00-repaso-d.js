@@ -50,7 +50,7 @@
 
 // 6. Muestra en que estación del año nos encontramos dependiendo del valor de una variable "mes"
 
-    let mes = "noviembre"
+    let mes = "noviembare"
 
     if(mes === "marzo"|| mes === "abril"|| mes ==="mayo")
         console.log("Estamos en otoño")
@@ -142,6 +142,7 @@ switch (mes2) {
         case "febrero":
             console.log("Tu mes tiene 28 dias JJIJIJA",mes)
             break;
+        default :
+            console.log("Incorrecto")
     }
 
-    

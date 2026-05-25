@@ -38,6 +38,11 @@ const numbers = [1, 2, 3];
 numbers.push(4);
 console.log(numbers); // [1, 2, 3, 4]
 
+// POP
+const numbers8 = [19,29,39];
+numbers8.pop()
+console.log(numbers)
+
 // UNSHIFT
 const numbers2 = [2, 3];
 // Agrega al inicio
@@ -49,6 +54,18 @@ const numbers3 = [1, 2, 3];
 // Elimina el primer elemento
 numbers3.shift();
 console.log(numbers3); // [2, 3]
+
+// SLICE
+// Obtiene los elementos que estan entre las cordenadas pero no cuenta el ultimo
+const numbers9 = [1,2,3,4,5,6]
+let numbers99 = numbers9.slice(1,3)
+console.log(numbers99)
+
+// SPLICE
+// Elimina por indice o reemplaza
+
+let numbers98 = numbers9.splice(2,1, "Reemplazo") // el string reemplaza a la casilla 2, en un elemento
+console.log(numbers9) // Para ver como se ha modificado la lista
 
 // FOREACH
 const numbers4 = [1, 2, 3];
