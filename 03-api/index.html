@@ -1,21 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Primer Programa Javascript</title>
-</head>
-<body>
-    <form class="form">
-        <input name = "username" type="text" placeholder="Usuario">
-        <input name = "email" type="email" placeholder="Email">
-        <input name = "first_name" type="text" placeholder="Nombre">
-        <input name = "last_name" type="text" placeholder="Apellido">
-        <input name = "password" type="password" placeholder="Contraseña">
-        <input name = "password2" type="password" placeholder="Confirmar Contraseña">
-        <button type="submit"> Registrar </button>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog API</title>
 
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+    font-family:system-ui,sans-serif;
+    background:#f3f4f6;
+    color:#111827;
+    max-width:700px;
+    margin:auto;
+    padding:2rem;
+}
+
+h1{
+    font-size:22px;
+    margin-bottom:1rem;
+    font-weight:600;
+}
+
+.section{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:16px;
+    padding:1.4rem;
+    margin-bottom:1.2rem;
+    box-shadow:0 2px 10px rgba(0,0,0,.04);
+}
+
+.label{
+    font-size:12px;
+    color:#6b7280;
+    margin-bottom:8px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+input,select{
+    height:42px;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    padding:0 12px;
+    font-size:14px;
+    transition:.2s;
+}
+
+input:focus,select:focus{
+    outline:none;
+    border-color:#6366f1;
+    box-shadow:0 0 0 3px rgba(99,102,241,.2);
+}
+
+button{
+    height:42px;
+    width:fit-content;
+    padding:0 18px;
+    border:none;
+    border-radius:10px;
+    background:#111827;
+    color:#fff;
+    font-size:14px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-1px);
+    opacity:.92;
+}
+
+ul{
+    list-style:none;
+    margin-top:1rem;
+}
+
+li{
+    background:#f9fafb;
+    border:1px solid #e5e7eb;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="section">
+    <p class="label">Registro</p>
+    <h1>Regístrese en el Blog</h1>
+
+    <form class="form_users">
+        <input name="username" type="text" placeholder="Usuario">
+        <input name="email" type="email" placeholder="Email">
+        <input name="first_name" type="text" placeholder="Nombre">
+        <input name="last_name" type="text" placeholder="Apellido">
+        <input name="password" type="password" placeholder="Contraseña">
+        <input name="password2" type="password" placeholder="Confirmar contraseña">
+        <button type="submit">Registrar</button>
     </form>
-    <script type="module" src="./01-api-fetch.js"></script>
+</div>
+
+<div class="section">
+    <p class="label">Usuarios</p>
+    <h1>Lista de usuarios</h1>
+
+    <button type="button" id="load_users">
+        Cargar usuarios
+    </button>
+
+    <ul id="list_users"></ul>
+</div>
+
+<div class="section">
+    <p class="label">Categorías</p>
+    <h1>Lista de categorías</h1>
+
+    <button type="button" id="load_categories">
+        Cargar categorías
+    </button>
+
+    <ul id="list_categories"></ul>
+</div>
+
+<div class="section">
+    <p class="label">Posts</p>
+    <h1>Ingrese su post</h1>
+
+    <form class="form_posts">
+        <input name="title" type="text" placeholder="Título">
+        <select name="category"></select>
+        <input name="content" type="text" placeholder="Contenido">
+        <input name="summary" type="text" placeholder="Resumen">
+        <button type="submit">Publicar</button>
+    </form>
+</div>
+
+<div class="section">
+    <p class="label">Mis posts</p>
+    <h1>Lista de mis posts</h1>
+
+    <button type="button" id="load_my_posts">
+        Cargar mis posts
+    </button>
+
+    <ul id="list_my_posts"></ul>
+</div>
+
+<script type="module" src="./01_create_posts.js"></script>
+<script type="module" src="./01_register_load_users.js"></script>
+<script type="module" src="./01_load_categories.js"></script>
+<script type="module" src="./01_load_my_posts.js"></script>
+<script type="module" src="./01_put_patch_delete_posts.js"></script>
+<script type="module" src="./01_delete_my_posts.js"></script>
+
 </body>
 </html>
