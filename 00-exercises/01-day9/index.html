@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Ejercicio JWT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&family=DM+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:      #0b0e14;
+            --surface: #131820;
+            --border:  #1e2635;
+            --accent:  #4f8ef7;
+            --text:    #e8eaf0;
+            --muted:   #5a647a;
+            --ok:      #5dd9a0;
+            --error:   #f26b6b;
+            --radius:  12px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: .3rem;
+        }
+        .subtitle { color: var(--muted); font-size: .88rem; margin-bottom: 2rem; }
+
+        /* ── Formulario de login ── */
+        .login-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            max-width: 400px;
+        }
+        .login-box h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        .field { margin-bottom: .8rem; }
+        label {
+            display: block;
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--muted);
+            margin-bottom: .3rem;
+        }
+        input {
+            width: 100%;
+            padding: .6rem .9rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .9rem;
+            outline: none;
+        }
+        input:focus { border-color: var(--accent); }
+
+        /* ── Botones de prueba ── */
+        .acciones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .6rem;
+            margin-bottom: 1.5rem;
+        }
+        button {
+            padding: .55rem 1.1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--text);
+            font-family: 'DM Mono', monospace;
+            font-size: .82rem;
+            cursor: pointer;
+            transition: border-color .15s, background .15s;
+        }
+        button:hover { border-color: var(--accent); background: var(--bg); }
+        button.primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+        }
+
+        /* ── Panel de resultados ── */
+        .resultado-label {
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--muted);
+            margin-bottom: .5rem;
+        }
+        #resultado {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            font-family: 'DM Mono', monospace;
+            font-size: .82rem;
+            line-height: 1.7;
+            min-height: 120px;
+            white-space: pre-wrap;
+        }
+        .ok    { color: var(--ok); }
+        .error { color: var(--error); }
+        .info  { color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <h1>Ejercicio JWT</h1>
+    <p class="subtitle">Probá las 4 funciones de auth-ejercicio.js</p>
+
+    <!-- Formulario para login() -->
+    <div class="login-box">
+        <h2>1. login()</h2>
+        <div class="field">
+            <label>Usuario</label>
+            <input type="text" id="username" placeholder="tu_usuario" />
+        </div>
+        <div class="field">
+            <label>Contraseña</label>
+            <input type="password" id="password" placeholder="••••••••" />
+        </div>
+        <button class="primary" id="btn-login">Ejecutar login()</button>
+    </div>
+
+    <!-- Botones para las otras 3 funciones -->
+    <div class="acciones">
+        <button id="btn-esta">estaAutenticado()</button>
+        <button id="btn-posts">fetchConAuth('/posts/')</button>
+        <button id="btn-logout">logout()</button>
+    </div>
+
+    <!-- Panel donde se muestran los resultados -->
+    <p class="resultado-label">Resultado</p>
+    <div id="resultado">Esperando acción...</div>
+
+    <script type="module">
+        import { login, logout, isAuthenticated, fetchWithAuth } from './fetchConAuth.js'
+
+        const resultado = document.getElementById('resultado')
+
+        // Muestra el resultado en el panel con color según tipo
+        function mostrar(texto, tipo = 'info') {
+            resultado.className = tipo
+            resultado.textContent = texto
+        }
+
+        // ── login() ──
+        document.getElementById('btn-login').addEventListener('click', async () => {
+            const username = document.getElementById('username').value.trim()
+            const password = document.getElementById('password').value
+            if (!username || !password) {
+                mostrar('Completá usuario y contraseña primero.', 'error')
+                return
+            }
+            try {
+                const tokens = await login(username, password)
+                mostrar(`✓ login() exitoso\n\naccess:  ${tokens.access.slice(0,40)}...\nrefresh: ${tokens.refresh.slice(0,40)}...`, 'ok')
+            } catch (e) {
+                mostrar(`✗ ${e.message}`, 'error')
+            }
+        })
+
+        // ── estaAutenticado() ──
+        document.getElementById('btn-esta').addEventListener('click', () => {
+            const resultado = isAuthenticated()
+            mostrar(
+                `estaAutenticado() → ${resultado}\n\n${resultado ? '✓ Hay un token guardado en localStorage' : '✗ No hay token — hacé login primero'}`,
+                resultado ? 'ok' : 'error'
+            )
+        })
+
+        // ── fetchConAuth() ──
+        document.getElementById('btn-posts').addEventListener('click', async () => {
+            mostrar('Consultando /posts/...', 'info')
+            try {
+                const response = await fetchWithAuth('/posts/')
+                if (!response) {
+                    mostrar('✗ Token expirado y refresh falló — sesión cerrada', 'error')
+                    return
+                }
+                const data = await response.json()
+                const posts = Array.isArray(data) ? data : data.results ?? []
+                mostrar(
+                    `✓ fetchConAuth('/posts/') → ${posts.length} posts\n\n` +
+                    posts.slice(0, 7).map(p => `• ${p.title}`).join('\n'),
+                    'ok'
+                )
+            } catch (e) {
+                mostrar(`✗ ${e.message}`, 'error')
+            }
+        })
+
+        // ── logout() ──
+        document.getElementById('btn-logout').addEventListener('click', () => {
+            logout()
+            mostrar('✓ logout() ejecutado\n\naccessToken:  ' +
+                (localStorage.getItem('accessToken') ?? 'eliminado') +
+                '\nrefreshToken: ' +
+                (localStorage.getItem('refreshToken') ?? 'eliminado'), 'ok')
+        })
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:          #0b0e14;
+            --surface:     #131820;
+            --border:      #1e2635;
+            --accent:      #4f8ef7;
+            --accent-glow: rgba(79,142,247,.18);
+            --text:        #e8eaf0;
+            --muted:       #5a647a;
+            --radius:      14px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+        }
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -.02em;
+        }
+        .btn-logout {
+            padding: .5rem 1.1rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .88rem;
+            cursor: pointer;
+            transition: border-color .2s, color .2s;
+        }
+        .btn-logout:hover { border-color: var(--accent); color: var(--text); }
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: .4rem;
+        }
+        .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: .95rem; }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.8rem 2rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,.3);
+        }
+        .card h2 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: .6rem; }
+        .card p  { color: var(--muted); font-size: .9rem; line-height: 1.6; }
+        #posts-container { margin-top: 1.5rem; }
+        .post-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: .8rem;
+        }
+        .post-item h3 { font-size: .95rem; font-weight: 500; margin-bottom: .3rem; }
+        .post-item p  { color: var(--muted); font-size: .85rem; }
+        .status-dot {
+            display: inline-block;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #5dd9a0;
+            margin-right: .5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="logo">AP</span>
+        <button class="btn-logout" id="btn-logout">Cerrar sesión</button>
+    </header>
+
+    <h1>Dashboard</h1>
+    <p class="subtitle"><span class="status-dot"></span>Sesión activa</p>
+
+    <div class="card">
+        <h2>Contenido protegido</h2>
+        <p>Solo los usuarios autenticados llegan hasta aquí.</p>
+    </div>
+
+    <div id="posts-container"></div>
+
+    <!-- protect.js verifica la sesión antes de mostrar la página -->
+    <script type="module" src="./js/protect.js"></script>
+
+    <!-- Script propio del dashboard: define initializePage() -->
+    <script type="module">
+        import { logout } from './js/auth.js'
+        import { fetchWithAuth } from './js/request.js'
+
+        /*
+        |--------------------------------------------------------------------------
+        | Inicialización del Dashboard
+        |--------------------------------------------------------------------------
+        | protect.js ejecuta esta función únicamente cuando el usuario posee una
+        | sesión válida. Si el token es inválido o ha expirado y no puede renovarse,
+        | el usuario será redirigido antes de llegar aquí.
+        */
+        window.initializePage = async function () {
+
+            // Registrar evento para cerrar sesión
+            document.getElementById('btn-logout')
+                .addEventListener('click', logout)
+
+            /*
+            |--------------------------------------------------------------------------
+            | Obtener posts protegidos
+            |--------------------------------------------------------------------------
+            | fetchWithAuth() agrega automáticamente el token de acceso en la petición.
+            | Si el access token expiró, la función intentará renovarlo usando el
+            | refresh token antes de repetir la solicitud.
+            */
+            const res = await fetchWithAuth('/posts/')
+
+            // Si el refresh falló y fetchWithAuth devolvió null,
+            // se detiene la ejecución para evitar errores.
+            if (!res) return
+
+            /*
+            |--------------------------------------------------------------------------
+            | Convertir respuesta HTTP a objeto JavaScript
+            |--------------------------------------------------------------------------
+            | DRF devuelve JSON. json() transforma la respuesta en un objeto que
+            | JavaScript puede manipular.
+            */
+            const data = await res.json()
+
+            console.log('Respuesta API:', data)
+            console.log('Status:', res.status)
+
+            console.log(`Total de posts: ${data.count}`)
+
+            /*
+            |--------------------------------------------------------------------------
+            | Importante: data NO es un array
+            |--------------------------------------------------------------------------
+            | Debido a la paginación de Django REST Framework, la respuesta tiene
+            | esta estructura:
+            |
+            | {
+            |     count: 11,
+            |     next: "...",
+            |     previous: null,
+            |     results: [...]
+            | }
+            |
+            | El array real de posts se encuentra dentro de la propiedad "results".
+            | Por eso enviamos data.results a renderPosts().
+            */
+            if (!data.results) {
+                console.error('No existe data.results')
+                console.error(data)
+                return
+            }
+
+            renderPosts(data.results)
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Renderizar posts en el DOM
+        |--------------------------------------------------------------------------
+        | Recibe un array de posts y genera dinámicamente el HTML utilizando
+        | map() para recorrer cada elemento.
+        */
+        function renderPosts(posts) {
+
+            const container = document.getElementById('posts-container')
+
+            /*
+            |--------------------------------------------------------------------------
+            | map()
+            |--------------------------------------------------------------------------
+            | Recorre cada post del array y devuelve un fragmento HTML.
+            | join('') une todos los fragmentos en un único string para insertarlo
+            | en el contenedor.
+            */
+            container.innerHTML = posts.map(p => `
+                <div class="post-item">
+                    <h3>${p.title}</h3>
+
+                    <!--
+                        Si content es null o undefined,
+                        se muestra una cadena vacía.
+                    -->
+                    <p>${p.content ?? ''}</p>
+                </div>
+            `).join('')
+}
+    </script>
+
+</body>
+</html>

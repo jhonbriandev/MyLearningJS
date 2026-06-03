@@ -1,0 +1,26 @@
+// 1. Crea la clase ApiClient con:
+//    - constructor que recibe baseURL
+//    - método getHeaders() que incluye Authorization si hay token
+//    - método request() base con manejo de errores
+//    - métodos get(), post(), patch(), delete()
+
+// 2. Crea un archivo blog-api.js que use tu ApiClient
+//    con funciones específicas de tu blog:
+//    - getPosts(pagina = 1)
+//    - getPost(slug)
+//    - getCategorias()
+//    - crearPost(datos)
+//    - editarPost(slug, cambios)
+//    - eliminarPost(slug)
+//    - login(username, password) → guarda el token en localStorage
+
+// 3. Prueba cada método en la consola del navegador:
+//    - GET /posts/ → debe mostrar lista
+//    - POST /token/ con credenciales → debe guardar token
+//    - Con el token, GET /posts/ de nuevo → mismo resultado
+//    - PATCH a un post tuyo → debe actualizar
+//    - DELETE a un post de prueba → debe eliminar
+
+// 4. Manejo de errores visible en el DOM:
+//    Crea una función mostrarFeedback(tipo, mensaje) que muestre
+//    un div con clase 'success' o 'error' que desaparece en 3 segundos

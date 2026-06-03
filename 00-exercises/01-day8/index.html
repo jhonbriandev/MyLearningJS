@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Posts</title>
+</head>
+<body>
+    <div class="section">
+    <p class="label">Posts</p>
+    <h1>Ingrese su post</h1>
+        <form class="form_posts">
+            <input name="title" type="text" placeholder="Título">
+            <select name="category"></select>
+            <input name="content" type="text" placeholder="Contenido">
+            <input name="summary" type="text" placeholder="Resumen">
+            <button type="submit">Publicar</button>
+        </form>
+    </div>
+    <div>
+        <button id="load_my_posts">Cargar mis posts</button>
+        <ul id="list_my_posts"></ul>
+    </div>
+    <div>
+        <button id="load_categories">Cargar Categorias</button>
+        <ul id="list_categories"></ul>
+    </div>
+    <script type="module" src="./js/my_posts.js"></script>
+    <script type="module" src="./js/categories.js"></script>
+    <script type="module" src="./js/create_post.js"></script>
+</body>
+</html>
