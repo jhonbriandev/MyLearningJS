@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    /* Por defecto todos los spans de error están ocultos.
+       El JS los hace visibles agregando la clase "visible" */
+    .error-msg {
+        display: none;
+    }
+
+    /* Cuando JS agrega la clase "visible", el span aparece en rojo */
+    .error-msg.visible {
+        display: block;
+        color: red;
+    }
+
+    /* Mismo patrón para el mensaje de éxito, pero en verde */
+    .exito-msg {
+        display: none;
+    }
+
+    .exito-msg.visible {
+        display: block;
+        color: green;
+    }
+</style>
+
+<body>
+    <!-- El id="form-login" permite que JS capture este formulario.
+         method="post" es ignorado porque JS intercepta el submit
+         con event.preventDefault() antes de que el navegador lo envíe -->
+    <form id="form-login" method="post">
+    
+        <div class="campo">
+
+            <!-- Cada campo sigue el mismo patrón:
+                 label → input → span de error
+                 El "name" del input es lo que FormData usa como clave -->
+
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username"/>
+            <!-- El id "error-username" sigue la convención error-{name}
+                 para que JS pueda encontrarlo dinámicamente -->
+            <span class="error-msg" id="error-username"></span>
+
+            <label for="password">Password</label>
+            <!-- type="password" oculta los caracteres mientras se escribe -->
+            <input type="password" id="password" name="password" />
+            <span class="error-msg" id="error-password"></span>
+
+            <!-- Span para errores generales del servidor (ej: error 500)
+                 que no pertenecen a un campo específico -->
+            <div class="error-msg" id="error-general"></div>
+
+            <!-- Span para mostrar el mensaje de registro exitoso -->
+            <div class="exito-msg" id="mensaje-exito"></div>
+
+        </div>
+
+        <!-- id="btn-submit" permite que JS lo deshabilite durante el fetch
+             para evitar doble envío -->
+        <button type="submit" id="btn-submit">Registrarse</button>
+
+    </form>
+
+    <!-- type="module" permite usar import/export en el JS si se necesita en el futuro -->
+    <script type="module" src="./index.js"></script>
+</body>
+</html>
