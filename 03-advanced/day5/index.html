@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es" data-tema="claro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Día 5 — Demo CSS</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <!-- NAVBAR — Flexbox: logo izquierda, links derecha -->
+    <nav class="navbar">
+        <span class="navbar-logo">Mini Blog</span>
+        <div class="navbar-links">
+            <a href="#">Inicio</a>
+            <a href="#">Sobre mí</a>
+            <!-- Botón que activa el modo oscuro via JS -->
+            <button class="btn btn-secundario btn-sm" id="btn-tema">Modo oscuro</button>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <!-- HERO — Flexbox centrado en columna -->
+        <section class="hero">
+            <h1>Posts recientes</h1>
+            <p>Achica la ventana para ver el grid responsive en acción.</p>
+            <div class="btn-grupo">
+                <button class="btn btn-primario">Nuevo post</button>
+                <button class="btn btn-secundario">Ver todos</button>
+            </div>
+        </section>
+
+        <!-- STATS — Grid de 4 columnas iguales -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-card-valor">24</span>
+                <span class="stat-card-etiqueta">Posts publicados</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-card-valor">3.2k</span>
+                <span class="stat-card-etiqueta">Lectores</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-card-valor">18</span>
+                <span class="stat-card-etiqueta">Comentarios</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-card-valor">5</span>
+                <span class="stat-card-etiqueta">Categorías</span>
+            </div>
+        </div>
+
+        <!-- POSTS — Grid responsive automático -->
+        <div class="posts-grid">
+
+            <article class="post-card">
+                <span class="badge badge-primario">CSS</span>
+                <h2 class="post-card-titulo">Aprendiendo Flexbox</h2>
+                <p class="post-card-descripcion">Una dimensión, infinitas posibilidades. El contenedor manda, los hijos obedecen.</p>
+                <div class="post-card-footer">
+                    <span class="texto-suave">12 jun 2025</span>
+                    <button class="btn btn-primario btn-sm">Leer más</button>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <span class="badge badge-exito">CSS</span>
+                <h2 class="post-card-titulo">Grid en dos dimensiones</h2>
+                <p class="post-card-descripcion">Filas y columnas al mismo tiempo. El layout más poderoso del CSS moderno.</p>
+                <div class="post-card-footer">
+                    <span class="texto-suave">13 jun 2025</span>
+                    <button class="btn btn-primario btn-sm">Leer más</button>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <span class="badge badge-advertencia">CSS</span>
+                <h2 class="post-card-titulo">Variables CSS</h2>
+                <p class="post-card-descripcion">Define una vez, usa en todas partes. Cambiar el tema es editar una sola línea.</p>
+                <div class="post-card-footer">
+                    <span class="texto-suave">14 jun 2025</span>
+                    <button class="btn btn-primario btn-sm">Leer más</button>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <span class="badge badge-error">CSS</span>
+                <h2 class="post-card-titulo">Responsive sin media queries</h2>
+                <p class="post-card-descripcion">auto-fill + minmax hace el trabajo solo. Achica la ventana y observa las columnas.</p>
+                <div class="post-card-footer">
+                    <span class="texto-suave">15 jun 2025</span>
+                    <button class="btn btn-primario btn-sm">Leer más</button>
+                </div>
+            </article>
+
+        </div>
+
+    </main>
+
+    <script>
+        // Alterna entre modo claro y oscuro cambiando el atributo data-tema del <html>
+        // Las variables CSS en [data-tema="oscuro"] se activan automáticamente
+        const btnTema = document.getElementById('btn-tema')
+
+        btnTema.addEventListener('click', () => {
+            const html     = document.documentElement
+            const temaActual = html.getAttribute('data-tema')
+            const nuevoTema  = temaActual === 'oscuro' ? 'claro' : 'oscuro'
+
+            html.setAttribute('data-tema', nuevoTema)
+            btnTema.textContent = nuevoTema === 'oscuro' ? 'Modo claro' : 'Modo oscuro'
+        })
+    </script>
+
+</body>
+</html>

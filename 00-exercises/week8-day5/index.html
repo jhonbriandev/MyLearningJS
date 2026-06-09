@@ -1,0 +1,53 @@
+<!--Aplica estilos profesionales a tu mini-blog usando lo de hoy */
+
+/* 1. Define al menos 8 variables CSS en :root:
+      colores, espaciados y radios de borde */
+
+/* 2. Crea el layout con Flexbox:
+      - Navbar con logo a la izquierda y botón a la derecha
+      - Footer con texto centrado */
+
+/* 3. Crea el grid de posts con Grid:
+      - Mobile: 1 columna
+      - Tablet (768px+): 2 columnas
+      - Desktop (1024px+): 3 columnas */
+
+/* 4. Estilos para los estados de UI del Día 4:
+      - .loading con spinner CSS
+      - .error con fondo rojo claro
+      - .toast con posición fixed y animación de entrada */
+
+/* 5. Que las cards tengan:
+      - Sombra suave
+      - Hover con elevación (transform: translateY)
+      - Transición suave en el hover -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Blog</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- NAVBAR — Flexbox: logo izquierda, links derecha -->
+    <nav class="navbar">
+        <span class="navbar-logo">Mini Blog</span>
+        <div class="navbar-links">
+            <a href="#">Inicio</a>
+            <a href="#">Sobre mí</a>
+        </div>
+    </nav>
+
+    <main class="container" id = "posts-contenedor">
+        <div class="posts-grid" id = "posts-grid"></div>
+        <button id ="btn-cargar" class="btn btn-primario btn-lg">Cargar Posts</button>
+    </main>
+    <!-- type="module" habilita import/export -->
+    <script type="module" src="js/index.js"></script>
+</body>
+<footer class="footer">
+    <p>© 2025 Mini Blog — Hecho con ❤️</p>
+</footer>
+</html>

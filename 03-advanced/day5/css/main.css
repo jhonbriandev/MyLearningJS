@@ -1,0 +1,426 @@
+/* ============================================================
+   DÍA 5 — MAIN.CSS
+   Un solo archivo con todo el CSS moderno del curso.
+   Secciones:
+     1. Variables CSS
+     2. Reset
+     3. Tipografía
+     4. Flexbox
+     5. Grid
+     6. Componentes (navbar, cards, botones)
+     7. Responsive
+   ============================================================ */
+
+
+
+
+/* ============================================================
+   SECCIÓN 1 — VARIABLES CSS
+   Se definen una sola vez en :root y se usan en todo el archivo.
+   Cambiar un valor aquí lo actualiza en todos los lugares donde se usa.
+   ============================================================ */
+:root {
+    /* --- Colores principales --- */
+    --color-primario:   #2563eb;   /* azul — botones, links, acentos */
+    --color-secundario: #64748b;   /* gris medio — texto secundario */
+    --color-exito:      #16a34a;   /* verde — mensajes de éxito */
+    --color-error:      #dc2626;   /* rojo — mensajes de error */
+    --color-advertencia:#d97706;   /* amarillo — advertencias */
+
+    /* --- Fondo y superficies --- */
+    --color-fondo:      #f8fafc;   /* fondo de página */
+    --color-card:       #ffffff;   /* fondo de tarjetas */
+    --color-borde:      #e2e8f0;   /* color de bordes sutiles */
+
+    /* --- Texto --- */
+    --color-texto:          #1e293b;   /* texto principal — casi negro */
+    --color-texto-suave:    #64748b;   /* texto secundario — gris */
+    --color-texto-inverso:  #ffffff;   /* texto sobre fondos oscuros */
+
+    /* --- Tipografía --- */
+    --fuente-principal: 'Inter', system-ui, sans-serif;
+    --tamaño-xs:   12px;
+    --tamaño-sm:   14px;
+    --tamaño-base: 16px;
+    --tamaño-lg:   18px;
+    --tamaño-xl:   24px;
+    --tamaño-2xl:  32px;
+
+    /* --- Espaciado — escala consistente --- */
+    --espacio-xs:  4px;
+    --espacio-sm:  8px;
+    --espacio-md:  16px;
+    --espacio-lg:  24px;
+    --espacio-xl:  40px;
+    --espacio-2xl: 64px;
+
+    /* --- Bordes --- */
+    --radio-sm:   4px;
+    --radio-md:   8px;
+    --radio-lg:   12px;
+    --radio-xl:   16px;
+    --radio-full: 9999px;   /* píldora — completamente redondeado */
+
+    /* --- Sombras --- */
+    --sombra-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --sombra-md: 0 4px 6px rgba(0,0,0,0.08);
+    --sombra-lg: 0 8px 24px rgba(0,0,0,0.12);
+
+    /* --- Transiciones --- */
+    --transicion-rapida:  0.15s ease;
+    --transicion-normal:  0.25s ease;
+    --transicion-lenta:   0.4s ease;
+}
+
+/* Modo oscuro — basta con redefinir las variables
+   Se activa cuando el <html> tiene el atributo data-tema="oscuro"
+   Todo lo que usa var() se actualiza automáticamente, sin tocar nada más */
+[data-tema="oscuro"] {
+    --color-fondo:          #0f172a;
+    --color-card:           #1e293b;
+    --color-borde:          #334155;
+    --color-texto:          #e2e8f0;
+    --color-texto-suave:    #94a3b8;
+    --sombra-sm:            0 1px 3px rgba(0,0,0,0.3);
+    --sombra-md:            0 4px 6px rgba(0,0,0,0.3);
+    --sombra-lg:            0 8px 24px rgba(0,0,0,0.4);
+}
+
+
+
+
+/* ============================================================
+   SECCIÓN 2 — RESET BÁSICO
+   Los navegadores aplican estilos por defecto que varían entre sí.
+   El reset los elimina para partir desde cero en todos los navegadores.
+   ============================================================ */
+
+/* El * selecciona absolutamente todos los elementos de la página */
+*, *::before, *::after {
+    box-sizing: border-box;   /* el padding y border NO agrandan el elemento */
+    margin:  0;
+    padding: 0;
+}
+
+/* Evita que las imágenes se desborden de su contenedor */
+img, video {
+    max-width: 100%;
+    display: block;
+}
+
+/* Los links no heredan color por defecto — aquí se fuerza */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Las listas pierden los puntos y sangría por defecto */
+ul, ol {
+    list-style: none;
+}
+
+
+
+
+/* ============================================================
+   SECCIÓN 3 — TIPOGRAFÍA BASE
+   Se aplica al body y se hereda en todos los elementos hijos.
+   ============================================================ */
+body {
+    font-family: var(--fuente-principal);
+    font-size:   var(--tamaño-base);
+    color:       var(--color-texto);
+    background:  var(--color-fondo);
+    line-height: 1.6;   /* interlineado — 1.6 es el estándar para legibilidad */
+}
+
+h1 { font-size: var(--tamaño-2xl); font-weight: 700; line-height: 1.2; }
+h2 { font-size: var(--tamaño-xl);  font-weight: 600; line-height: 1.3; }
+h3 { font-size: var(--tamaño-lg);  font-weight: 600; line-height: 1.4; }
+h4 { font-size: var(--tamaño-base);font-weight: 600; }
+
+p  { color: var(--color-texto-suave); }
+
+/* Clase utilitaria — texto pequeño y gris, útil para fechas, etiquetas */
+.texto-suave {
+    font-size: var(--tamaño-sm);
+    color:     var(--color-texto-suave);
+}
+
+
+
+
+/* ============================================================
+   SECCIÓN 4 — FLEXBOX
+   Organiza elementos en una dimensión: fila o columna.
+   display: flex se aplica al contenedor — los hijos obedecen.
+   ============================================================ */
+
+/* Contenedor principal de la página */
+.container {
+    max-width: 1200px;
+    margin:    0 auto;            /* centra horizontalmente */
+    padding:   var(--espacio-lg);
+}
+
+/* --- NAVBAR — patrón más común de Flexbox --- */
+/* justify-content: space-between empuja los hijos a los extremos */
+.navbar {
+    display:         flex;
+    justify-content: space-between;   /* logo ← → links */
+    align-items:     center;          /* centra verticalmente */
+    padding:         var(--espacio-md) var(--espacio-lg);
+    background:      var(--color-card);
+    box-shadow:      var(--sombra-sm);
+    position:        sticky;   /* se queda fijo al hacer scroll */
+    top:             0;
+    z-index:         100;      /* siempre encima del resto del contenido */
+}
+
+.navbar-logo {
+    font-size:   var(--tamaño-lg);
+    font-weight: 700;
+    color:       var(--color-primario);
+}
+
+/* Los links del navbar también usan Flexbox para alinearse en fila */
+.navbar-links {
+    display:     flex;
+    align-items: center;
+    gap:         var(--espacio-lg);   /* espacio entre links sin usar margin */
+}
+
+.navbar-links a {
+    font-size:   var(--tamaño-sm);
+    font-weight: 500;
+    color:       var(--color-texto-suave);
+    transition:  color var(--transicion-rapida);
+}
+
+.navbar-links a:hover { color: var(--color-primario); }
+
+/* --- HERO — Flexbox para centrar perfectamente --- */
+/* justify-content + align-items: center = centrado total */
+.hero {
+    display:         flex;
+    flex-direction:  column;    /* apila los hijos en columna */
+    justify-content: center;
+    align-items:     center;
+    text-align:      center;
+    min-height:      40vh;      /* ocupa al menos el 40% de la pantalla */
+    gap:             var(--espacio-md);
+    padding:         var(--espacio-xl) var(--espacio-lg);
+}
+
+.hero h1 { color: var(--color-texto); }
+
+.hero p {
+    max-width:  520px;    /* limita el ancho del párrafo para mejor lectura */
+    font-size:  var(--tamaño-lg);
+}
+
+/* --- GRUPO DE BOTONES — Flexbox en fila --- */
+.btn-grupo {
+    display:     flex;
+    gap:         var(--espacio-sm);
+    flex-wrap:   wrap;       /* en móvil los botones saltan de línea */
+    justify-content: center;
+}
+
+
+
+
+/* ============================================================
+   SECCIÓN 5 — GRID
+   Organiza elementos en dos dimensiones: filas Y columnas.
+   ============================================================ */
+
+/* --- GRID DE POSTS — responsive automático sin media queries ---
+   minmax(300px, 1fr) significa: mínimo 300px, máximo 1fr.
+   auto-fill crea tantas columnas como quepan en el ancho disponible.
+   Resultado: en desktop 3-4 columnas, en tablet 2, en móvil 1. */
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap:        var(--espacio-lg);
+    margin-top: var(--espacio-lg);
+}
+
+/* --- GRID DE DOS COLUMNAS — contenido + sidebar ---
+   1fr ocupa el espacio restante, 300px es el sidebar fijo */
+.grid-con-sidebar {
+    display: grid;
+    grid-template-columns: 1fr 300px;   /* contenido | sidebar */
+    gap:    var(--espacio-lg);
+    margin: var(--espacio-lg) 0;
+}
+
+/* --- GRID DE ESTADÍSTICAS — 4 columnas iguales --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--espacio-md);
+}
+
+/* --- LAYOUT DE PÁGINA COMPLETA con áreas nombradas ---
+   grid-template-areas permite "dibujar" el layout visualmente en el código */
+.layout-pagina {
+    display: grid;
+    grid-template-areas:
+        "header  header  header"
+        "sidebar main    main"
+        "footer  footer  footer";
+    grid-template-columns: 250px 1fr 1fr;
+    grid-template-rows:    60px 1fr 60px;
+    min-height:            100vh;
+}
+
+.layout-header  { grid-area: header; }
+.layout-sidebar { grid-area: sidebar; }
+.layout-main    { grid-area: main; }
+.layout-footer  { grid-area: footer; }
+
+
+
+
+/* ============================================================
+   SECCIÓN 6 — COMPONENTES
+   Piezas reutilizables: cards, botones, badges, estados.
+   ============================================================ */
+
+/* --- CARD --- */
+.post-card {
+    background:     var(--color-card);
+    border-radius:  var(--radio-lg);
+    padding:        var(--espacio-lg);
+    box-shadow:     var(--sombra-sm);
+    border:         1px solid var(--color-borde);
+    display:        flex;
+    flex-direction: column;   /* apila el contenido verticalmente */
+    gap:            var(--espacio-md);
+    transition:     transform var(--transicion-normal),
+                    box-shadow var(--transicion-normal);
+}
+
+/* El hover "levanta" la card visualmente */
+.post-card:hover {
+    transform:  translateY(-4px);
+    box-shadow: var(--sombra-lg);
+}
+
+.post-card-titulo {
+    font-size:   var(--tamaño-lg);
+    font-weight: 600;
+    color:       var(--color-texto);
+}
+
+.post-card-descripcion {
+    font-size:   var(--tamaño-sm);
+    color:       var(--color-texto-suave);
+    line-height: 1.7;
+}
+
+/* margin-top: auto empuja el botón siempre al fondo de la card,
+   sin importar cuánto texto tenga la descripción */
+.post-card-footer {
+    margin-top:  auto;
+    display:     flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* --- BOTONES --- */
+/* Clase base con los estilos comunes a todos los botones */
+.btn {
+    display:       inline-flex;
+    align-items:   center;
+    gap:           var(--espacio-xs);
+    padding:       var(--espacio-sm) var(--espacio-md);
+    border-radius: var(--radio-md);
+    border:        none;
+    cursor:        pointer;
+    font-size:     var(--tamaño-sm);
+    font-weight:   500;
+    font-family:   var(--fuente-principal);
+    transition:    opacity var(--transicion-rapida),
+                   transform var(--transicion-rapida);
+}
+
+.btn:hover    { opacity: 0.85; transform: translateY(-1px); }
+.btn:active   { transform: translateY(0); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* Variantes de color */
+.btn-primario   { background: var(--color-primario);   color: white; }
+.btn-exito      { background: var(--color-exito);      color: white; }
+.btn-error      { background: var(--color-error);      color: white; }
+.btn-secundario {
+    background: transparent;
+    color:      var(--color-primario);
+    border:     1px solid var(--color-primario);
+}
+
+/* Variantes de tamaño */
+.btn-sm { padding: var(--espacio-xs) var(--espacio-sm); font-size: var(--tamaño-xs); }
+.btn-lg { padding: var(--espacio-md) var(--espacio-lg); font-size: var(--tamaño-base); }
+
+/* --- BADGE — etiqueta pequeña de categoría o estado --- */
+.badge {
+    display:       inline-block;
+    padding:       2px 10px;
+    border-radius: var(--radio-full);   /* completamente redondeado */
+    font-size:     var(--tamaño-xs);
+    font-weight:   500;
+}
+
+.badge-primario    { background: #dbeafe; color: #1e40af; }
+.badge-exito       { background: #dcfce7; color: #15803d; }
+.badge-error       { background: #fee2e2; color: #b91c1c; }
+.badge-advertencia { background: #fef9c3; color: #854d0e; }
+
+/* --- STAT CARD — tarjeta de estadística --- */
+.stat-card {
+    background:     var(--color-card);
+    border:         1px solid var(--color-borde);
+    border-radius:  var(--radio-lg);
+    padding:        var(--espacio-md) var(--espacio-lg);
+    display:        flex;
+    flex-direction: column;
+    gap:            var(--espacio-xs);
+}
+
+.stat-card-valor {
+    font-size:   var(--tamaño-2xl);
+    font-weight: 700;
+    color:       var(--color-texto);
+}
+
+.stat-card-etiqueta {
+    font-size: var(--tamaño-sm);
+    color:     var(--color-texto-suave);
+}
+
+
+
+
+/* ============================================================
+   SECCIÓN 7 — RESPONSIVE
+   Mobile-first: los estilos base son para móvil.
+   Las media queries agregan estilos para pantallas más grandes.
+   ============================================================ */
+
+/* En móvil el grid de stats y el sidebar se apilan en una columna */
+@media (max-width: 767px) {
+    .stats-grid      { grid-template-columns: repeat(2, 1fr); }
+    .grid-con-sidebar { grid-template-columns: 1fr; }
+}
+
+/* Tablet — 768px o más */
+@media (min-width: 768px) {
+    .container { padding: var(--espacio-xl); }
+}
+
+/* Desktop — 1024px o más */
+@media (min-width: 1024px) {
+    .hero { min-height: 50vh; }
+}
